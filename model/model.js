@@ -1,13 +1,15 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose');
 
-var crawlerSchema = new Schema({
+mongoose.Promise = global.Promise;
+let Schema = mongoose.Schema;
+
+let crawlerSchema = new Schema({
     url : String,
     params : String,
     count : Number,
     timeStamp : String
 })
 
-var CrawlerDB = mongoose.model('CrawlerDB', crawlerSchema);
+let CrawlerDB = mongoose.model('CrawlerDB', crawlerSchema);
 
 module.exports = CrawlerDB;
