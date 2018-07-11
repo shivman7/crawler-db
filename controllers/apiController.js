@@ -13,8 +13,9 @@ module.exports = function(app) {
        let page = req.params.page;
        let limit = 50;
        let offset = (page - 1) * limit;
-       CrawlerDB.find().then((data) => {
-            res.send({noOfPages : (data.length)/limit, data : data.slice(offset, offset + limit)});
+
+       CrawlerDB.find().skip(offset).limit(limit).sort({count : -1, timestamp : 1}).then((data) => {
+            res.send(data);
        }, (e) => {
            res.sendStatus(400).send(e);
        }); 
