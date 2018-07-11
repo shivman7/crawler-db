@@ -32,7 +32,7 @@ module.exports = function(app) {
             start = false;
             console.log('Stopping');
             crawler.toggleCrawling('', 'stop');
-            res.send('Stopped');
+            res.send('Paused');
         } else if (req.params.toggle == 'resume') {
             start = true;
             console.log('Resuming');
