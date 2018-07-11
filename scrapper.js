@@ -19,9 +19,9 @@ function getUrlsFromBody(html) {
 }
 
 function getParamsFromUrl(url) {
-    var paramString = url.split('?');
-    if (paramString.length >= 2) {
-       var params = paramString[1].split('&').map((param) => {
+    var paramString = url.split('?')[1];
+    if (paramString) {
+       var params = paramString.split('&').map((param) => {
             return param.split('=')[0];
         });
         return params;

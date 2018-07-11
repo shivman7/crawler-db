@@ -20,7 +20,7 @@ const argv = yargs
   .argv;
 
 module.exports = {
-    getDBConnectionString: function()
+    getDBConnectionString : function()
     {
         return 'mongodb://' + argv.uname + ':' + argv.pass + '@ds133041.mlab.com:33041/crawler_db';
     }

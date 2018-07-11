@@ -1,14 +1,11 @@
 let request_promise = require('request-promise');
 let CrawlerDB = require('./model/model.js');
 let scrapper = require('./scrapper.js');
-// let redis = require('./redis.js');
 
 var   currentRunning = 0;
 var   running = false;
-const requestQueue = [];
+var requestQueue = [];
 const maxConcurrent = 5;
-const countKey = '_count';
-const paramsKey = '_params';
 const validUrl=/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/g;
 
 function bfsCrawler() {
@@ -82,7 +79,14 @@ function nextRequest() {
 }
 
 function toggleCrawling(url, toggleRunning) {
-    running = toggleRunning;
+    if(toggleRunning == 'start') {
+        requestQueue = [];
+        running = true;
+    } else if(toggleRunning == 'resume') {
+        running = true;
+    } else {
+        running =false;
+    }
     if (running) {
         requestQueue.push({'url' : url, 'params' : []});
         currentRunning++;
