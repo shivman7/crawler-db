@@ -10,6 +10,7 @@ const validUrl=/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+
 
 function bfsCrawler() {
     let request = requestQueue.shift();
+    console.log("Currently Processing : " + request.url);
     CrawlerDB.findOneAndUpdate({url : request.url}, {
         $set : {
             timeStamp : new Date().getTime()
@@ -49,7 +50,7 @@ function bfsCrawler() {
                         console.log('Crawling Finised!');
                     }
                 }, err => {
-                    console.log("Erroed URL " + request.url);
+                    console.log("Errored URL " + request.url);
                     if(requestQueue.length > 0) {
                         currentRunning--;
                         nextRequest();
@@ -89,9 +90,9 @@ function toggleCrawling(url, toggleRunning) {
     }
     if (running && toggleRunning == 'start') {
         requestQueue.push({'url' : url, 'params' : []});
-        currentRunning++;
-        bfsCrawler();
-    } 
+    }
+    currentRunning++;
+    bfsCrawler(); 
 }
 
 module.exports = {

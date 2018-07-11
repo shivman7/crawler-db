@@ -15,7 +15,7 @@ module.exports = function(app) {
        const countPromise = CrawlerDB.count();
        const queryPromise = CrawlerDB.find().skip(offset).limit(limit).sort({count : -1, timestamp : 1});
        Promise.all([countPromise, queryPromise]).then((data) => {
-        res.send({count : Math.ceil(data[0] / limit), data : data[1]});
+        res.send({count : data[0], pages : Math.ceil(data[0] / limit), data : data[1]});
         }, (e) => {
         res.sendStatus(400).send(e);
         }); 

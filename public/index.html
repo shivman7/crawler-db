@@ -1,1 +1,52 @@
-<p>"Hello World!!"</p>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">  
+</head>
+<body>
+    <div>
+        <div class="header">
+            CRAWLER
+        </div>
+        <div class="content">
+            <div class="options">
+                <span class="option" onclick="switchOperation('start')">Start Crawling</span>
+                <span class="option" onclick="switchOperation('stop')">Pause Crawling</span>
+                <span class="option" onclick="switchOperation('resume')">Resume Crawling</span>
+                <span class="option" onclick="getTableDetails(1);">Show Results</span>
+            </div>
+            <h2>Status : <span id="status">Not Started</span></h2>
+            <div>
+                <h2>Total Urls Processed : <span id= "totalCount">0</span></h2>
+            </div>
+            <div class="table-wrapper">
+                <table id="crawlerTable" class="table" border="0" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr class="table-header">
+                            <th style="border-radius: 25px 0px 0px 0px;">
+                                URL
+                            </th>
+                            <th>
+                                PARAMS
+                            </th>
+                            <th>
+                                COUNT
+                            </th>
+                            <th style="border-radius: 0px 25px 0px 0px;">
+                                TIMESTAMP
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination-wrapper">
+                <div id="pagination" class="pagination">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

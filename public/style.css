@@ -1,0 +1,107 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: auto;
+}
+
+.header {
+    color: #2ee067;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 80px;
+    padding: 20px 0px;
+    font-size: 24px;
+    background: #312d2c;
+    font-family: fantasy;
+    box-shadow: 1px 4px 14px -1px #46211A;
+}
+
+.content {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.table-wrapper {
+    padding: 100px 30px 0px 30px;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+th {
+    padding: 30px;
+}
+
+td {
+    padding: 20px;
+    background-color: #222222;
+    color: #9e9e9e;
+    border: 1px solid #159a5636;
+}
+
+.table-header {
+    background: #393939;
+    color: #159a57;
+}
+
+.pagination {
+    text-align: center;
+    position: relative;
+    top: 10px;
+}
+
+.page {
+    padding: 5px;
+    border: 1px solid #159a57;
+    background: #393939;
+    color: #159a57;
+    cursor: pointer;
+}
+
+.pagination-wrapper {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #222222;
+    height: 39px;
+    border-radius: 10px 10px 0px 0px;
+    border: 1px solid #159a56;
+}
+
+.options {
+    position: relative;
+    padding: 50px;
+    padding-left: 126px;
+    text-align: center;
+}
+
+.option {
+    padding: 18px;
+    background: #2de0673d;
+    box-shadow: 1px 1px 13px -5px;
+    border-radius: 10px;
+    margin-right: 172px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.option:hover {
+    background: #2de06794;
+    transition-duration: 0.8s;
+}
+
+.option:active {
+    border: 1px solid #2de0673d;
+    color: #fff;
+    box-shadow: 1px 4px 17px -5px;
+}
