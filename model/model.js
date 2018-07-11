@@ -5,9 +5,9 @@ let Schema = mongoose.Schema;
 
 let crawlerSchema = new Schema({
     url : String,
-    params : String,
+    params : [String],
     count : Number,
-    timeStamp : String
+    timeStamp : Number
 })
 
 let CrawlerDB = mongoose.model('CrawlerDB', crawlerSchema);

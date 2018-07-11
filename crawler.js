@@ -1,6 +1,7 @@
-let scrapper = require('./scrapper.js');
 let request_promise = require('request-promise');
-let redis = require('./redis.js');
+let CrawlerDB = require('./model/model.js');
+let scrapper = require('./scrapper.js');
+// let redis = require('./redis.js');
 
 var   currentRunning = 0;
 var   running = false;
@@ -12,27 +13,32 @@ const validUrl=/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+
 
 function bfsCrawler() {
     let request = requestQueue.shift();
-    redis.getValue(countKey, request.url).then((value) => {
-        if(value) {
-            redis.setValue(countKey, request.url, parseInt(value) + 1)
-                .then(redis.setParams(paramsKey, request.url, request.params))
-                .then(() => {
-                    if(requestQueue.length > 0) {
-                        currentRunning--;
-                        nextRequest();
-                        // bfsCrawler();
-                    } else {
-                        console.log('Crawling Finished!')
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+    CrawlerDB.findOneAndUpdate({url : request.url}, {
+        $set : {
+            timeStamp : new Date().getTime()
+        }, $inc : {
+            count : 1
+        }, $addToSet : {
+            params : request.params
+        }
+    }, { new : true }).then(data => {
+        if(data) {
+            if(requestQueue.length > 0) {
+                currentRunning--;
+                nextRequest();
+            } else {
+                console.log('Crawling Finished!')
+            }
         } else {
-            redis.setValue(countKey, request.url, 1)
-                .then(redis.setParams(paramsKey, request.url, request.params))
-                .then(() => request_promise.get(request.url))
-                .then((html) => {
+            let newUrlData = CrawlerDB({
+                url : request.url,
+                params : request.params,
+                count : 1,
+                timeStamp : new Date().getTime()       
+            });
+            newUrlData.save()
+                .then(data => request_promise.get(request.url))
+                .then(html => {
                     var urls = scrapper.getUrlsFromBody(html);
                     urls.forEach((eachUrl) => {
                         if(validUrl.test(eachUrl.url)) {
@@ -42,25 +48,22 @@ function bfsCrawler() {
                     if(requestQueue.length > 0) {
                         currentRunning--;
                         nextRequest();
-                        // bfsCrawler();
                     } else {
                         console.log('Crawling Finised!');
                     }
-                }, (err) => {
-                        console.log("Erroed URL " + request.url);
-                        if(requestQueue.length > 0) {
-                            currentRunning--;
-                            nextRequest();
-                            // bfsCrawler();
-                        } else {
-                            console.log('Crawling Finised!');
-                        }
-                })
-                .catch((err) => {
+                }, err => {
+                    console.log("Erroed URL " + request.url);
+                    if(requestQueue.length > 0) {
+                        currentRunning--;
+                        nextRequest();
+                    } else {
+                        console.log('Crawling Finised!');
+                    }
+                }).catch(err => {
                     console.log(err);
                 });
         }
-    }, (err) => {
+    }).catch(err => {
         console.log(err);
     });
 }
