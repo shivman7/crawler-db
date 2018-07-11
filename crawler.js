@@ -87,7 +87,7 @@ function toggleCrawling(url, toggleRunning) {
     } else {
         running =false;
     }
-    if (running) {
+    if (running && toggleRunning == 'start') {
         requestQueue.push({'url' : url, 'params' : []});
         currentRunning++;
         bfsCrawler();
