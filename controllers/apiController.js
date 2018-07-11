@@ -15,10 +15,10 @@ module.exports = function(app) {
        const countPromise = CrawlerDB.count();
        const queryPromise = CrawlerDB.find().skip(offset).limit(limit).sort({count : -1, timestamp : 1});
        Promise.all([countPromise, queryPromise]).then((data) => {
-        res.send({count : data[0], data : data[1]});
-   }, (e) => {
-       res.sendStatus(400).send(e);
-   }); 
+        res.send({count : Math.ceil(data[0] / limit), data : data[1]});
+        }, (e) => {
+        res.sendStatus(400).send(e);
+        }); 
     });
 
     app.get('/status/:toggle', function(req, res) {
