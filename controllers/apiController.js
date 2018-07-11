@@ -2,8 +2,6 @@ let bodyparser = require('body-parser');
 let CrawlerDB = require('./../model/model.js');
 let crawler = require('./../crawler.js');
 
-let start = false;
-
 module.exports = function(app) {
 
     app.use(bodyparser.json());
@@ -14,11 +12,13 @@ module.exports = function(app) {
        let limit = 50;
        let offset = (page - 1) * limit;
 
-       CrawlerDB.find().skip(offset).limit(limit).sort({count : -1, timestamp : 1}).then((data) => {
-            res.send(data);
-       }, (e) => {
-           res.sendStatus(400).send(e);
-       }); 
+       const countPromise = CrawlerDB.count();
+       const queryPromise = CrawlerDB.find().skip(offset).limit(limit).sort({count : -1, timestamp : 1});
+       Promise.all([countPromise, queryPromise]).then((data) => {
+        res.send({count : data[0], data : data[1]});
+   }, (e) => {
+       res.sendStatus(400).send(e);
+   }); 
     });
 
     app.get('/status/:toggle', function(req, res) {
