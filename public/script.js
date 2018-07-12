@@ -41,7 +41,7 @@ function getTableDetails(pageNo){
 
 function switchOperation(operation){
     url = startCrawlingUrl + operation;
-    axios.get(url).then(function (res) {
+    axios.post(url).then(function (res) {
         document.getElementById('status').innerHTML = res.data;
     })
     .catch(function (err) {

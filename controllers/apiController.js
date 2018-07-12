@@ -21,7 +21,7 @@ module.exports = function(app) {
         }); 
     });
 
-    app.get('/status/:toggle', function(req, res) {
+    app.post('/status/:toggle', function(req, res) {
         if (req.params.toggle == 'start') {
             console.log('Starting');
             CrawlerDB.remove().then(() => {
